@@ -7,6 +7,7 @@ import Avatar from "boring-avatars";
 import { useActionState, useEffect } from "react";
 import { createNoteAction } from "./action";
 import { toast } from "sonner";
+import { deleteAction } from "./action";
 
 export const Form = ({ username }) => {
   const [state, action, pending] = useActionState(createNoteAction, null);
@@ -28,6 +29,16 @@ export const Form = ({ username }) => {
         </div>
         <Button className="bg-[#594E36]" disabled={pending}>Add Note</Button>
       </div>
+    </form>
+  );
+};
+
+export const Delbtn = ({ id }) => {
+  return (
+    <form action={deleteAction} >
+    <input hidden name="id" readOnly value={id} />
+    <button className="w-fit">Delete</button>
+    
     </form>
   );
 };

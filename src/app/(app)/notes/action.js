@@ -30,23 +30,16 @@ export async function createNoteAction(_, formData) {
 // actions.js
 
 // Function to delete a note
-export const deleteNote = async (noteId) => {
-  try {
-    // Send DELETE request to the API to delete the note by ID
-    const res = await fetch(`https://v1.appbackend.io/v1/rows/auD776G0Skgu/${noteId}`, {
-      method: 'DELETE',
-    });
+export async function deleteAction(_,formData)  {
+  const noteId = formData.get("id");
 
-    if (!res.ok) {
-      throw new Error("Failed to delete the note");
-    }
-
-    // Return result if successful (e.g., response from API)
-    return await res.json();
-  } catch (error) {
-    console.error("Error deleting note:", error);
-    throw error;
-  }
+  await fetch("https://v1.appbackend.io/v1/rows/auD776G0Skgu" , {
+      method: "DELETE",
+      headers: {
+            'Content-Type': 'application/json'
+      },
+      body: JSON.stringify([noteId])
+})
 };
 
 // Function to edit a note
