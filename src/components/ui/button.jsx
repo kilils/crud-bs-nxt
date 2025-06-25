@@ -40,15 +40,21 @@ function Button({
   variant,
   size,
   asChild = false,
+   disable,  // add1: Make sure to destructure disable here
   ...props
 }) {
+   // add2: Remove the `disable` prop if it's false or undefined, else pass it as a string
+  const disableProp = disable ? "true" : undefined;  // "true" if disable is true, undefined otherwise
+  
   const Comp = asChild ? Slot : "button"
 
   return (
     <Comp
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
-      {...props} />
+      {...props} 
+        disable={disableProp}  // add3: Pass the conditional disable prop  
+        />
   );
 }
 

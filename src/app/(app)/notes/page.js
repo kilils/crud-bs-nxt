@@ -34,19 +34,19 @@ export default async function Page() {
 
   return (
     <div className="space-y-4 py-8">
-      <h3>All Notes</h3>
+      <h3 className="text-lg font-bold text-center">All Notes</h3>
       <Form username={username} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {notes.map((note) => {
           return (
-            <Card key={note._id} className="bg-[#A5AE9E]">
+            <Card key={note._id} className="bg-[#A5AE9E] border-[#2F2504] ">
               
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-2  ">
                 <h3 className="text-lg font-medium">{note.title}</h3>
                 <p className="text-sm">{note.content}</p>
                
                 <div className="flex justify-between items-center mt-4">
-                <p className="text-sm text-zinc-500">{moment(note.createdAt).format("MMM Do, YYYY")}</p>
+                <p className="text-sm text-[#2F2504]">{moment(note.createdAt).format("MMM Do, YYYY")}</p>
                   <div className="space-x-2">
                
                 </div>

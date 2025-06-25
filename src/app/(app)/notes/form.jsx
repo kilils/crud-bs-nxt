@@ -19,8 +19,8 @@ export const Form = ({ username }) => {
 
   return (
     <form className="space-y-2" action={action}>
-      <Input name="title" />
-      <Textarea name="content" />
+      <Input name="title" className="border-[#2F2504]"/>
+      <Textarea name="content" className="border-[#2F2504]"/>
       <div className="flex justify-between items-center">
         <div className="flex gap-2 items-center">
           <Avatar name={username} className="w-6 h-6" variant="beam" />
