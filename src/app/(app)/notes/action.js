@@ -49,31 +49,6 @@ export async function deleteAction(_, formData) {
   return { status: "success", message: "Note deleted!" };
 }
 
-export const editNote = async (noteId, updatedData) => {
-  const payload = {
-    _id: noteId,
-    ...updatedData,
-  };
-console.log("RESPONSE:", noteId);
-  const res = await fetch("https://v1.appbackend.io/v1/rows/auD776G0Skgu", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify([payload]), // ❗ bentuk array!
-  });
-
-  const responseText = await res.text();
-  console.log("RESPONSE:", responseText);
-
-  if (!res.ok) {
-    throw new Error("Failed to edit the note");
-  }
-
-  revalidatePath("/notes");
-  return JSON.parse(responseText);
-};
-
 
 export async function editNoteAction(formData) {
   const _id = formData.get("_id");
