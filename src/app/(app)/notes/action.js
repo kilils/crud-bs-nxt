@@ -49,27 +49,64 @@ export async function deleteAction(_, formData) {
   return { status: "success", message: "Note deleted!" };
 }
 
-
-// Function to edit a note
 export const editNote = async (noteId, updatedData) => {
-  try {
-    // Send PATCH or PUT request to the API to update the note by ID
-    const res = await fetch(`https://v1.appbackend.io/v1/rows/auD776G0Skgu/${noteId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    });
+  const payload = {
+    _id: noteId,
+    ...updatedData,
+  };
+console.log("RESPONSE:", noteId);
+  const res = await fetch("https://v1.appbackend.io/v1/rows/auD776G0Skgu", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([payload]), // ❗ bentuk array!
+  });
 
-    if (!res.ok) {
-      throw new Error("Failed to edit the note");
-    }
+  const responseText = await res.text();
+  console.log("RESPONSE:", responseText);
 
-    // Return result if successful (e.g., response from API)
-    return await res.json();
-  } catch (error) {
-    console.error("Error editing note:", error);
-    throw error;
+  if (!res.ok) {
+    throw new Error("Failed to edit the note");
   }
+
+  revalidatePath("/notes");
+  return JSON.parse(responseText);
 };
+
+
+export async function editNoteAction(formData) {
+  const _id = formData.get("_id");
+  const title = formData.get("title");
+  const content = formData.get("content");
+  const username = formData.get("username");
+
+  const payload = {
+    _id,
+    title,
+    content,
+    username,
+  };
+
+  //console.log("EDIT PAYLOAD:", payload);
+
+  const res = await fetch("https://v1.appbackend.io/v1/rows/auD776G0Skgu", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload), 
+  });
+
+  const responseText = await res.text();
+  // console.log("RESPONSE:", responseText);
+
+  if (!res.ok) {
+    throw new Error("Failed to update note");
+  }
+
+  revalidatePath("/notes");
+
+  return { status: "success", message: "Note updated!" };
+}
+
