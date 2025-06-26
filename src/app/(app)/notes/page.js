@@ -1,9 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { cookies } from "next/headers";
 import moment from "moment";
-import { Form } from "./form";
+import { Delbtn, Form, EditForm, ViewModal } from "./form";
 import { getUsername } from "@/utils/getUsername";
 import { Butterfly_Kids } from "next/font/google";
+import Link from "next/link";
+
 
 export default async function Page() {
   const username = await getUsername();
@@ -41,14 +43,17 @@ export default async function Page() {
           return (
             <Card key={note._id} className="bg-[#A5AE9E] border-[#2F2504] ">
               
-              <CardContent className="space-y-2  ">
+              <CardContent className="space-y-2">
                 <h3 className="text-lg font-medium">{note.title}</h3>
                 <p className="text-sm">{note.content}</p>
                
                 <div className="flex justify-between items-center mt-4">
                 <p className="text-sm text-[#2F2504]">{moment(note.createdAt).format("MMM Do, YYYY")}</p>
-                  <div className="space-x-2">
+                  <div className="space-x-2 flex">
                
+              <ViewModal note={note} />
+              <EditForm note={note} />
+              <Delbtn id={note._id} />
                 </div>
                 </div>
               </CardContent>
