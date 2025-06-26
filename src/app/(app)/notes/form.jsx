@@ -33,12 +33,38 @@ export const Form = ({ username }) => {
   );
 };
 
-export const Delbtn = ({ id }) => {
-  return (
-    <form action={deleteAction} >
-    <input hidden name="id" readOnly value={id} />
-    <button className="w-fit">Delete</button>
+// export const Delbtn = ({ id }) => {
+//   return (
+//     <form  action={deleteAction} >
+//     <input hidden name="id" readOnly value={id} />
+//     <button className="w-fit">Delete</button>
     
+//     </form>
+//   );
+// };
+
+
+export const Delbtn = ({ id }) => {
+  const [state, action, pending] = useActionState(deleteAction, null);
+
+  useEffect(() => {
+    if (state?.status === "success") {
+      toast.success(state.message || "Note deleted!");
+    }
+  }, [state]);
+
+  return (
+    <form action={action} key={id}>
+      <input hidden name="id" value={id} readOnly />
+      <Button
+        type="submit"
+        variant="destructive"
+        size="sm"
+        disabled={pending}
+        className="bg-red-600 hover:bg-red-700"
+      >
+        Delete
+      </Button>
     </form>
   );
 };

@@ -24,23 +24,31 @@ export async function createNoteAction(_, formData) {
   };
 }
 
-// actions.js
 
-// Fungsi untuk menghapus note
-// actions.js
+
 
 // Function to delete a note
-export async function deleteAction(_,formData)  {
+export async function deleteAction(_, formData) {
   const noteId = formData.get("id");
+  console.log("Deleting ID:", noteId);
 
-  await fetch("https://v1.appbackend.io/v1/rows/auD776G0Skgu" , {
-      method: "DELETE",
-      headers: {
-            'Content-Type': 'application/json'
-      },
-      body: JSON.stringify([noteId])
-})
-};
+  const response = await fetch("https://v1.appbackend.io/v1/rows/auD776G0Skgu", {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify([noteId]),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete");
+  }
+
+  revalidatePath("/notes");
+
+  return { status: "success", message: "Note deleted!" };
+}
+
 
 // Function to edit a note
 export const editNote = async (noteId, updatedData) => {
